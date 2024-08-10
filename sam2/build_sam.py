@@ -14,19 +14,24 @@ from omegaconf import OmegaConf
 from .utils.misc import VARIANTS, variant_to_config_mapping
 
 
+import yaml
+
 def load_model(
-    variant: str,
-    ckpt_path=None,
+    from_pretrained='../models/tiny',
     device="cpu",
     mode="eval",
     hydra_overrides_extra=[],
     apply_postprocessing=True,
 ) -> torch.nn.Module:
-    assert variant in VARIANTS, f"only accepted variants are {VARIANTS}"
 
+    url = from_pretrained.split('/')
+    path = "/".join(url[:-1])
+    variant = url[-1]
+    config = yaml.safe_load(open('{}/config.yaml'.format(path)))[variant]
+    
     return build_sam2(
-        config_file=variant_to_config_mapping[variant],
-        ckpt_path=ckpt_path,
+        config_file=config['config'],
+        ckpt_path='{}/{}'.format(path, config['checkpoint']),
         device=device,
         mode=mode,
         hydra_overrides_extra=hydra_overrides_extra,
