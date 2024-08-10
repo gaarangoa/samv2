@@ -1,11 +1,10 @@
 CPU **compatible** fork of the official SAMv2 implementation.
 
-## Features 🚀
+## Features
 
 * CPU compatible
-* ships with config files
 * Run image and video inference on CPUs
-* [Example notebooks](../examples/notebooks/) showcasing inference using weights and biases.
+* [Example notebooks](../examples/notebooks/)
 
 ## Installation
 
